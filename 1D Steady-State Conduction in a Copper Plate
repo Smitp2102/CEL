@@ -1,0 +1,46 @@
+% 1D Steady-State Conduction in a Copper Plate
+
+% Define parameters
+L = 0.1;  % Length of the plate (m)
+Nx = 50;  % Number of nodes
+dx = L / (Nx - 1); % Grid spacing
+
+% Material properties for copper
+k = 400; % Thermal conductivity (W/mK)
+
+% Initialize temperature vector
+T = zeros(Nx, 1);
+
+% Boundary conditions
+T_left = 100;  % Temperature at the left boundary (°C)
+T_right = 200; % Temperature at the right boundary (°C)
+
+% Apply boundary conditions
+T(1) = T_left;
+T(end) = T_right;
+
+% Convergence criteria
+tolerance = 1e-5;
+max_iterations = 5000;
+
+% Iterative solution using the Gauss-Seidel method
+for iter = 1:max_iterations
+    T_old = T;
+    
+    for i = 2:Nx-1
+        T(i) = 0.5 * (T(i+1) + T(i-1));
+    end
+    
+    % Check for convergence
+    if max(abs(T - T_old)) < tolerance
+        break;
+    end
+end
+
+% Display the results
+x = 0:dx:L;
+plot(x, T, '-o');
+title('Temperature Distribution in a 1D Copper Plate');
+xlabel('Position (m)');
+ylabel('Temperature (°C)');
+grid on;
