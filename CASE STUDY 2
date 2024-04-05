@@ -1,0 +1,38 @@
+% Constants
+rho = 1000; % Density of fluid (kg/m^3)
+g = 9.81; % Acceleration due to gravity (m/s^2)
+h = 10; % Total head (m)
+efficiency = 0.75; % Pump efficiency
+
+% Impeller diameters to analyze
+impeller_diameters = [0.1, 0.15, 0.2, 0.25]; % in meters
+
+% Inlet and outlet diameters
+inlet_diameter = 0.06; % in meters
+outlet_diameter = 0.08; % in meters
+
+% Initialize arrays to store results
+flow_rates = zeros(length(impeller_diameters), 1);
+
+% Loop through different impeller diameters
+for i = 1:length(impeller_diameters)
+    impeller_diameter = impeller_diameters(i);
+    
+    % Calculate pump speed based on impeller diameter
+    pump_speed = 1000 / impeller_diameter; % Example relation
+    
+    % Calculate flow rate through the pump
+    flow_rate = (efficiency * pi * min(inlet_diameter, outlet_diameter)^2 * pump_speed) / (4 * rho * g * h);
+    
+    % Store the flow rate in the array
+    flow_rates(i) = flow_rate;
+end
+
+% Plot the results for varying impeller diameters
+figure;
+plot(impeller_diameters, flow_rates, 'o-');
+xlabel('Impeller Diameter (m)');
+ylabel('Flow Rate (m^3/s)');
+title('Flow Rate vs. Impeller Diameter for Varying Inlet and Outlet Diameters');
+legend(['Inlet Diameter: ', num2str(inlet_diameter), 'm, Outlet Diameter: ', num2str(outlet_diameter), 'm']);
+grid on;
