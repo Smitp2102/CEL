@@ -1,0 +1,14 @@
+x = [0.6 1.5 1.6 2.5];
+f = [0.9036 0.3734 0.3261 0.08422];
+p = polyfit(x,f,length(x)-1); 
+pd = polyder(p);
+fd = polyval(pd, x);
+fd_exact = (5 - 10*x) .* exp(-2*x);
+plot(x,fd,'r');
+hold on;
+plot(x,fd_exact,'b');
+hold off;
+title('Derivative v/s X')
+xlabel('X')
+ylabel('Derivative')
+grid on
