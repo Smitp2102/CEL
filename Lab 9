@@ -1,0 +1,41 @@
+% Given function
+f = @(x) 1 - x - 4*x.^2 + 2*x;
+
+% Analytical solution
+syms x
+analytical_result = int(f(x), x, 0, 1);
+
+% Trapezoidal rule
+trapezoidal_result = (f(0) + f(1)) * 1 / 2;
+
+% Composite trapezoidal rule with n = 4
+n = 4;
+h = 1/n;
+composite_trapezoidal_result = f(0) + f(1);
+for i = 1:n-1
+    composite_trapezoidal_result = composite_trapezoidal_result + 2*f(i*h);
+end
+composite_trapezoidal_result = composite_trapezoidal_result * h / 2;
+
+% Simpson's 1/3 rule
+h_simpson13 = (1-0)/2;
+simpson13_result = h_simpson13/3 * (f(0) + 4*f((0+1)/2) + f(1));
+
+% Simpson's 3/8 rule
+h_simpson38 = (1-0)/3;
+simpson38_result = 3*h_simpson38/8 * (f(0) + 3*f((2*0+1)/3) + 3*f((0+2*1)/3) + f(1));
+
+% Plot the function
+x_vals = linspace(0, 1, 100);
+y_vals = f(x_vals);
+plot(x_vals, y_vals);
+xlabel('x');
+ylabel('f(x)');
+title('Plot of the given function');
+
+% Display results
+disp(['Analytical result: ', char(analytical_result)]);
+disp(['Trapezoidal rule result: ', num2str(trapezoidal_result)]);
+disp(['Composite trapezoidal rule result with n=4: ', num2str(composite_trapezoidal_result)]);
+disp(['Simpson''s 1/3 rule result: ', num2str(simpson13_result)]);
+disp(['Simpson''s 3/8 rule result: ', num2str(simpson38_result)]);
